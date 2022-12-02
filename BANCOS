@@ -1,0 +1,229 @@
+defVar --name chrome --type Browser
+defVar --name cod_operador --type Numeric --value (inserir código do operador)
+defVar --name data_atual --type DateTime
+defVar --name dia_atual --type Numeric
+defVar --name mes_atual --type Numeric
+defVar --name ano_atual --type Numeric
+defVar --name data_anterior --type DateTime
+defVar --name dia_anterior --type Numeric
+defVar --name mes_anterior --type Numeric
+defVar --name ano_anterior --type Numeric
+defVar --name senha_santander --type String --value (inserir senha)
+defVar --name Agencia_santander --type Numeric --value (inserir agencia)
+defVar --name Conta_corrente_santander --type Numeric --value(inserir conta corrente)
+defVar --name Usuario_santander --type String --value (inserir nome do usuario)
+defVar --name chrome1 --type Browser
+defVar --name login_Bradesco --type String --value (inserir login bradesco)
+defVar --name senha_bradesco --type String --value (inserir senha bradesco)
+defVar --name mes --type Numeric
+defVar --name ano --type Numeric
+defVar --name dia --type Numeric
+defVar --name arquivo_baixado --type Boolean
+defVar --name baixado --type Boolean
+defVar --name internet_explore --type Browser
+defVar --name explore --type Browser
+defVar --name mozila --type Browser
+defVar --name chome --type Browser
+defVar --name chrome01 --type Browser
+defVar --name elemento_encontrado --type Boolean
+defVar --name janela_chrome --type Window
+defVar --name elemento_bradesco --type Boolean
+defVar --name elemento_santander --type Boolean
+defVar --name chrome03 --type Browser
+defVar --name usuario_Caixa --type String --value (inserir usuario)
+defVar --name Senha_BancoCaixa --type String --value (inserir senha)
+defVar --name chrome02 --type Browser
+defVar --name chave_J --type String --value (inserir valor da chave j)
+defVar --name senha_banco_brasil --type String --value (inserir senha)
+defVar --name extrato_itau_plus --type Excel
+defVar --name itau --type List --innertype String
+defVar --name excel --type Excel
+defVar --name concluido --type String
+defVar --name erro --type String
+defVar --name scrpt_concluido --type String
+defVar --name Saldo_de_Conta_Corrente --type String
+defVar --name lacamentos --type String
+defVar --name totalconta --type String
+defVar --name Saldo_Bloqueio_Judicial --type String
+defVar --name saldoABC --type String
+defVar --name saldo_investimento --type String
+defVar --name saldodispDE --type String
+defVar --name santander_excel --type Excel
+defVar --name SaldoCef3040 --type String
+defVar --name SaldoCef45 --type String
+defVar --name SaldoCef4239 --type String
+defVar --name lista_dda --type List --innertype String
+defVar --name lista_saldo --type List --innertype String
+defVar --name arquivo --type String
+defVar --name saldo_anterior --type String
+defVar --name lista_saldo_banco --type Excel
+defVar --name tabela --type DataTable
+defVar --name linha_banco --type Numeric
+defVar --name Sucesso --type Boolean
+defVar --name investimento_2280 --type String
+defVar --name excel_investimento --type Excel
+defVar --name investimento_819 --type String
+defVar --name bloqueioJudicial_2280 --type String
+defVar --name bloqueio_brasil --type String
+defVar --name excel_invest --type Excel
+defVar --name Emailconectado --type EmailConnection
+defVar --name conexao_email --type EmailConnection
+defVar --name destino --type List --innertype String
+defVar --name conexaoEmail --type EmailConnection
+defVar --name email --type String --value "[inserir e-mail]"
+defVar --name email_destino --type List --innertype String --value "[inserir e-mail]"
+defVar --name lista_destino --type List --innertype String --value "[[inserir e-mail]"
+defVar --name saldo_atual --type Excel
+defVar --name tabela_saldos --type DataTable
+defVar --name print_valor --type String
+defVar --name saldo_itau --type String
+defVar --name saldo_atual_CAIXA --type Excel
+defVar --name CAIXA3040 --type String
+defVar --name CAIXA45 --type String
+defVar --name CAIXA4239 --type String
+defVar --name edge --type Browser
+defVar --name senha_tecladoVirtual --type String --value (inserir senha do teclado virtual)
+defVar --name lista_caracteresSenha_tecladoVirtual --type List --innertype String
+defVar --name caractere --type String
+defVar --name contador --type Numeric
+defVar --name valor_botao --type String
+defVar --name achou --type Numeric
+defVar --name cartao45 --type String --value 0045
+defVar --name cef4239 --type String --value 0090
+defVar --name opcoes --type Numeric
+defVar --name baixado3040 --type Boolean
+defVar --name baixado45 --type Boolean
+defVar --name baixado4239 --type Boolean
+defVar --name BaixadoBRADESCO2280 --type Boolean
+defVar --name BaixadoBradesco819 --type Boolean
+defVar --name baixadoITAU --type Boolean
+defVar --name baixadoSANTANDER --type Boolean
+defVar --name teste01 --type Boolean
+goSub --label extrato_Itau --comment Extrato_Itau
+goSub --label Extrato_Bradesco --comment Extrato_BRADESCO
+goSub --label bancoBrasil --comment Extrato_BancoBrasil
+goSub --label extrato__santander --comment Extrato_Santander
+goSub --label banco_caixa --comment Extrato_CaixaEconomica
+runDOSCommand --command "W: & python ExtratoDados.py" --directory "(inserir diretorio)" --comment "Fluxo de Caixa Py" scrpt_concluido=output erro=error
+logMessage --message "${scrpt_concluido}" --type "Info"
+beginSub --name Extracao_data_atual
+	getCurrentDateAndTime --localorutc "LocalTime" --getcurrentdateonly  --comment Obter_dia_Atual data_atual=value
+	getDatePart --date "${data_atual}" --type "Days" --comment Obter_Dia_Atual dia_atual=value
+	getDatePart --date "${data_atual}" --type "Months" --comment Obter_mês_atual mes_atual=value
+	getDatePart --date "${data_atual}" --type "Years" --comment Obter_ano_atual ano_atual=value
+	logMessage --message "Geração de extrato Finalizado" --type "Info"
+endSub
+beginSub --name Data_anterior
+	addToDateTime --date "${data_atual}" --value -1 --type "Days" --comment "Data Anterior" data_anterior=value
+	getDatePart --date "${data_anterior}" --type "Days" --comment Dia_Anterior dia_anterior=value
+	getDatePart --date "${data_anterior}" --type "Months" --comment Mês_Anterior mes_anterior=value
+	getDatePart --date "${data_anterior}" --type "Years" --comment Ano_Anterior ano_anterior=value
+endSub
+beginSub --name Preenchimento_Data_Inicial
+	delay --timeout "00:00:02"
+	webSet --value "${dia_anterior}" --selector "CssSelector" --css "#DiaInicial" --simulatehuman  --comment Data_Inicial
+	webSet --value "${mes_anterior}" --selector "CssSelector" --css "#MesInicial" --simulatehuman  --comment mês_Inicial
+	webSet --value "${ano_anterior}" --selector "CssSelector" --css "#AnoInicial" --simulatehuman  --comment Ano_Inicial
+endSub
+beginSub --name Preenchimento_data_final
+	webSet --value "${dia_atual}" --selector "CssSelector" --css "#DiaFinal" --simulatehuman  --comment Data_Final
+	webSet --value "${mes_atual}" --selector "CssSelector" --css "#MesFinal" --simulatehuman  --comment mês_Final
+	webSet --value "${ano_atual}" --selector "CssSelector" --css "#AnoFinal" --simulatehuman  --comment Ano_Final
+endSub
+beginSub --name extrato__santander
+	webStart --name web01 --type "Chrome" --comment "Iniciar navegador" chrome01=value
+	webNavigate --url "https://www.santandernetibe.com.br/" --comment "Acessar site"
+	getCurrentDateAndTime --localorutc "LocalTime" --getcurrentdateonly  --comment Obter_dia_Atual data_atual=value
+	webWaitElement --selector "CssSelector" --css "#appHeader > header > login-field > div > form > div > div > div:nth-child(1) > span > span.text-decoration > p > a"
+	webWaitElement --selector "CssSelector" --css "#txtAgencia"
+	webClick --selector "CssSelector" --css "#appHeader > header > login-field > div > form > div > div > div:nth-child(1) > span > span.text-decoration > p > a"
+	webSet --value "${Agencia_santander}" --selector "CssSelector" --css "#txtAgencia" --comment Digitar_Agencia
+	webSet --value "${Conta_corrente_santander}" --selector "CssSelector" --css "#txtConta" --comment "Digitar_Conta Corrente"
+	webClick --selector "CssSelector" --css "body > form > div:nth-child(3) > a"
+	webWaitElement --selector "CssSelector" --css "#txtNome"
+	webSet --value "${Usuario_santander}" --selector "CssSelector" --css "#txtNome" --comment Digitar_Login
+	webSet --value "${senha_santander}" --selector "CssSelector" --css "#txtSenha" --comment Digitar_Senha
+	webWaitElement --selector "CssSelector" --css "#btnContinuar"
+	webClick --selector "CssSelector" --css "#btnContinuar"
+	goSub --label acessar_extrato_santander --comment "ACESSAR EXTRATO"
+	delay --timeout "00:00:02"
+	repeat
+		webWaitElement --selector "CssSelector" --css "#formGeral\\:exportarExtratoExcel" --timeout "00:00:50" elemento_santander=value
+		if --left "${elemento_santander}" --operator "Is_True" --negate
+			goSub --label acessar_extrato_santander --comment "ACESSAR EXTRATO"
+		endIf
+	until --left "${elemento_santander}" --operator "Is_True" --negate
+	webWaitElement --selector "CssSelector" --css "#formGeral\\:exportarExtratoExcel"
+	delay --timeout "00:00:04"
+	webClick --selector "CssSelector" --css "#formGeral\\:exportarExtratoExcel" --comment botão_extrair_excel
+	webClick --selector "CssSelector" --css "body > div.daterangepicker.dropdown-menu.ltr.opensright > div.ranges > ul > li.active"
+	webWaitDownload --saveto "W:\\Fluxo de Caixa\\Robo_fluxo de caixa\\Bases" --nametosave extrato_santander --extension ".xls" --timeout "00:04:00" baixadoSANTANDER=success
+	logMessage --message "SANTANDER: ${baixadoSANTANDER}" --type "Info"
+	delay --timeout "00:00:02"
+	webWaitElement --selector "CssSelector" --css "#closeMessageLogoutSim"
+	webClick --selector "CssSelector" --css "#closeMessageLogoutSim"
+	webClose --name web01
+endSub
+beginSub --name extrato_Itau
+	webStart --name web --type "Chrome" --comment "Iniciar navegador" chrome=value
+	webNavigate --url "http://www.itau.com.br" --comment "Acessar site"
+	webWaitElement --selector "XPath" --xpath "//*[@id=\"marco-civil-btn-ok\"] " --comment Menssagem
+	webClick --selector "XPath" --xpath "//*[@id=\"marco-civil-btn-ok\"] " --comment "Apertar OK"
+	webClick --selector "XPath" --xpath "//*[@id=\"open_modal\"]" --comment "Selecionar Botão Acesso"
+	webClick --selector "XPath" --xpath "//*[@id=\"opcoes_login\"]" --comment "Clicar em Opções de Acesso"
+	delay --timeout "00:00:02"
+	webSetComboBox --selectoptionby "Index" --index 2 --selector "XPath" --xpath "//*[@id=\"opcoes_login\"]"
+//sendKeys --keys "{TAB 1}"
+	webSet --value "${cod_operador}" --selector "XPath" --xpath "//*[@id=\"op\"]" --simulatehuman
+//sendKeys --keys "{SUBTRACT 1}"
+//sendKeys --keys "{TAB 1}"
+	delay --timeout "00:00:02"
+	webClick --isdoubleclick  --selector "XPath" --xpath "//*[@id=\"btn_acessos\"]" --comment "Botão continuar"
+	webWaitElement --selector "XPath" --xpath "//*[@id=\"senha\"]"
+	delay --timeout "00:00:05"
+	goSub --label teclado_virtual --comment "TECLADO VIRTUAL"
+	delay --timeout "00:00:05"
+	webClick --isdoubleclick  --selector "XPath" --xpath "//*[@id=\"acessar\"]" --simulatehuman  --comment ACESSAR
+	webWaitElement --selector "XPath" --xpath "/html/body/section[2]/div/section/div/div/form/div/section/fieldset/ul/li[2]/p[1]/input" teste01=value
+	logMessage --message "${teste01}" --type "Info"
+	webClick --isdoubleclick  --selector "XPath" --xpath "/html/body/section[2]/div/section/div/div/form/div/section/fieldset/ul/li[2]/p[1]/input" --simulatehuman
+	webWaitElement --selector "CssSelector" --css "#btn-continuar"
+	webClick --selector "CssSelector" --css "#btn-continuar"
+	delay --timeout "00:00:02"
+	webWaitElement --selector "CssSelector" --css "/html/body/div[2]/button"
+	webClick --selector "CssSelector" --css "/html/body/div[2]/button"
+	delay --timeout "00:00:02"
+	webClick --selector "CssSelector" --css "//*[@id=\"modalPushNotification\"]/dialog/div/div[4]/button"
+	delay --timeout "00:00:02"
+	webWaitElement --selector "XPath" --xpath "//*[@id=\"AC\"]/div/div[1]/div[2]/div/p[2]"
+	goSub --label acessar_extrato --comment "Acessar Extrato Itau"
+	delay --timeout "00:00:05"
+	repeat
+		webWaitElement --selector "XPath" --xpath "//*[@id=\"BOXcontainer01\"]/table/tbody/tr[2]/td/span[3]/a" --timeout "00:01:05" elemento_encontrado=value
+		if --left "${elemento_encontrado}" --operator "Is_True" --negate
+			goSub --label acessar_extrato
+		endIf
+	until --left "${elemento_encontrado}" --operator "Is_True" --negate
+	delay --timeout "00:00:02"
+	webClick --selector "CssSelector" --css "#BOXcontainer01 > table > tbody > tr:nth-child(2) > td > span:nth-child(3) > a" --timeout "00:10:00" --comment "Baixar em excel"
+	delay --timeout "00:00:05"
+	webWaitDownload --saveto "W:\\Fluxo de Caixa\\Robo_fluxo de caixa\\Bases" --nametosave extrato_itau_plus --extension ".xls" --timeout "00:03:00" baixadoITAU=success
+	logMessage --message "ITAU: ${baixadoITAU}" --type "Info"
+	repeat
+		if --left "${baixadoITAU}" --operator "Is_True" --negate
+			goSub --label acessar_extrato
+		endIf
+	until --left "${elemento_encontrado}" --operator "Is_True" --negate
+	delay --timeout "00:00:05"
+	webClick --selector "CssSelector" --css "#linkSair" --timeout "00:00:04" --comment "CLICAR SAIR"
+	delay --timeout "00:00:02"
+	webClick --selector "CssSelector" --css "#content > section > div > div > div.row.clearfix > section > a.btn.btn-fluxo.inline-block" --timeout "00:00:04" --comment "CONFIRMAR SAIR"
+	delay --timeout "00:00:02"
+	webClose --name web
+endSub
+beginSub --name Extrato_Bradesco
+	goSub --label acessarSite_Bradesco --comment Acessar_siteBradesco
+	webSet --value "${login_Bradesco}" --selector "CssSelector" --css "#identificationForm\\:txtUsuario" --comment Digitar_usuario_bradesco
+	webSet --value "${senha_bradesco}" --selector "CssSelector" --css "#identificationForm\\:txtSenha" --comment Digitar_senha_bradesco
+	webClick --selector "CssSelector" --css "#identificationForm\\:botaoAvancar" --timeout "00:00:05"
+	
